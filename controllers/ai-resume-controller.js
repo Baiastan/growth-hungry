@@ -18,7 +18,15 @@ export const getAIResponseOnJD = async (req, res) => {
       messages: [
         {
           role: "user",
-          content: `${message}. Is Baiastan a good fit for the position?`,
+          content: `${message}`,
+        },
+        {
+          role: "system",
+          content: `If the recruiter provides insufficient information (e.g., only 2-3 words), request more details to make an accurate evaluation. Remember, your responses should always address the recruiter directly.`,
+        },
+        {
+          role: "system",
+          content: `You are an expert about Baiastan's qualifications as a professional frontend developer. Refer to the information provided in his resume: ${myResume}.`,
         },
         {
           role: "system",
@@ -28,21 +36,12 @@ export const getAIResponseOnJD = async (req, res) => {
           role: "system",
           content: `Devide your answer into two main headers: First header is Potential match to job position. Second header is is Discrepancies between job description and Baiastan's resume.  `,
         },
-
-        {
-          role: "system",
-          content: `You are an expert about Baiastan's qualifications as a professional frontend developer. Refer to the information provided in his resume: ${myResume}. If the recruiter provides insufficient information (e.g., only 2-3 words), request more details to make an accurate evaluation. Remember, your responses should always address the recruiter directly.`,
-        },
-        {
-          role: "system",
-          content: `If the job description requires more than 6 years of experience, acknowledge that Baiastan has about 5 years and six months of experience. Clarify that years of experience do not necessarily reflect skill level; practical knowledge and field experience are crucial in software engineering. Make sure this message is conveyed to the recruiter professionally.`,
-        },
       ],
       stream: true,
     });
 
     // Process and send the streamed response
-    res.setHeader("Content-Type", "text/plain; charset=utf-8");
+    res.setHeader("Content-Type", "text/html; charset=utf-8");
     res.setHeader("Cache-Control", "no-cache");
 
     for await (const chunk of stream) {
