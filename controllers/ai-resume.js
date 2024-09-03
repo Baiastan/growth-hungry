@@ -10,7 +10,11 @@ const openai = new OpenAI({
 });
 
 export const getAIResponseOnJD = async (req, res) => {
-  const { message } = req.body;
+  const { message, params = { jobSkillsStr: [], matchedSkills: [] } } = req.body;
+  const { jobSkills, matchedSkills } = params;
+
+  const jobSkillsStr = jobSkills?.join(", ");
+  const matchedSkillsStr = matchedSkills?.join(", ");
 
   try {
     const stream = await openai.chat.completions.create({
@@ -34,6 +38,10 @@ export const getAIResponseOnJD = async (req, res) => {
         },
         {
           role: "system",
+          content: `Here additional data that might be helpful for your analysis. Skills listed in job description: ${jobSkillsStr}. Matched skills with my skills in resume: ${matchedSkillsStr}. This data might not be exact data. Therefore, make your additional analysis too`,
+        },
+        {
+          role: "system",
           content: `Devide your answer into two main headers: First header is Potential match to job position. Second header is is Discrepancies between job description and Baiastan's resume.  `,
         },
       ],
@@ -50,7 +58,6 @@ export const getAIResponseOnJD = async (req, res) => {
         res.write(text);
       }
     }
-
     res.end();
   } catch (error) {
     console.error("Error processing request:", error);
