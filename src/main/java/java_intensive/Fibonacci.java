@@ -22,6 +22,7 @@ public class Fibonacci {
         scan.close();
     }
 
+
     public static int fib(int n) {
         if(fibCache.containsKey(n)) {
             return fibCache.get(n);
