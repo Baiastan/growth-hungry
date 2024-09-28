@@ -46,7 +46,8 @@ public class Main {
 
 
 
-        System.out.println("--------------Students after changes in courses---------------------");
+
+        System.out.println("--------------Students after changes in courses------------------");
 
 
         courseManager.displayAllStudents();
