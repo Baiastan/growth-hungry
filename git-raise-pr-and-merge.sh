@@ -11,7 +11,7 @@ if [ -n "$pr_number" ]; then
     echo "Merging PR #$pr_number..."
 
     gh pr merge "$pr_number" --merge
-
 else
   echo "No open PR found"
 fi
+
